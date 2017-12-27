@@ -24,13 +24,16 @@ repositories {
 
 
 dependencies {
+	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-actuator')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-data-rest')
+//	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	compile('org.flywaydb:flyway-core')
-	compile('org.springframework.boot:spring-boot-starter-web')
 	runtime('org.springframework.boot:spring-boot-devtools')
-	runtime('com.microsoft.sqlserver:mssql-jdbc')
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '1.1.1'
+
+    runtime('com.microsoft.sqlserver:mssql-jdbc')
 	compileOnly('org.projectlombok:lombok')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

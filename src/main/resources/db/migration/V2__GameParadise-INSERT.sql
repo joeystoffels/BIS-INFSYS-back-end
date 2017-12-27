@@ -1368,7 +1368,7 @@ INSERT INTO REPARATIE(SCHADENUMMER,BARCODE,STARTDATUM,INLOGNAAM,DATUM_GEREED,KOS
 Inkoopprijs is 50% van de verkoopprijs.
 Inkoopprijs is + 25% wanneer gekozen wordt voor BONNEN.
 */
-USE GAMEPARADISE
+USE GAMEPARADISESPRING
 
 DECLARE @cnt INT = 10000000;
 
@@ -1394,7 +1394,7 @@ END;
 VerKOOP van een artikel mag niet op een datum die voor de verhuur-EINDdatum van een artikel ligt.
 */
 
-USE GAMEPARADISE
+USE GAMEPARADISESPRING
 
 DECLARE @cnt2 INT = 10000000;
 
@@ -1412,7 +1412,7 @@ END;
 VerKOOP van een artikel mag niet op een datum die voor de inkoopdatum van een artikel ligt.
 */
 
-USE GAMEPARADISE
+USE GAMEPARADISESPRING
 
 DECLARE @cnt3 INT = 10000000;
 
@@ -1429,7 +1429,7 @@ END;
 VerHUUR van een artikel mag niet op een datum die voor de inkoopdatum van een artikel ligt.
 */
 
-USE GAMEPARADISE
+USE GAMEPARADISESPRING
 
 DECLARE @cnt4 INT = 10000000;
 
@@ -1446,7 +1446,7 @@ END;
 EINDdatum van VerHUUR van een artikel mag niet op een datum die voor de STARTdatu van een REPARATIE van een artikel ligt.
 */
 
-USE GAMEPARADISE
+USE GAMEPARADISESPRING
 
 DECLARE @cnt5 INT = 10000000;
 

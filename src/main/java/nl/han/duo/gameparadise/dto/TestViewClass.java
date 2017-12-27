@@ -1,4 +1,4 @@
-package nl.han.duo.gameparadise.dao;
+package nl.han.duo.gameparadise.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
