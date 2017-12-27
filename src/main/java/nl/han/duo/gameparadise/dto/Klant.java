@@ -3,13 +3,20 @@ package nl.han.duo.gameparadise.dto;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
 @Table(name = "KLANT")
 @NamedQueries({
-        @NamedQuery(name = "Klant.findAllByQuery", query = "SELECT k FROM Klant k"),
-        @NamedQuery(name = "Klant.findByTest", query = "SELECT k FROM Klant k WHERE k.typeEigenConsole = 'PS3'")
+        @NamedQuery(
+                name = "Klant.findAllByQuery",
+                query = "SELECT k FROM Klant k"
+        ),
+        @NamedQuery(
+                name = "Klant.findByTest",
+                query = "SELECT k FROM Klant k WHERE k.typeEigenConsole = 'PS3'"
+        )
 })
 public class Klant {
 
@@ -41,4 +48,16 @@ public class Klant {
     private String merkEigenConsole;
 
     private String typeEigenConsole;
+
+    public String getWachtwoord() {
+        return wachtwoord.trim();
+    }
+
+    public String getMerkEigenConsole() {
+        return merkEigenConsole.trim();
+    }
+
+    public String getTypeEigenConsole() {
+        return typeEigenConsole.trim();
+    }
 }

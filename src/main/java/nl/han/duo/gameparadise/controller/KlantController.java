@@ -20,11 +20,11 @@ public class KlantController {
 
     @RequestMapping(value = "/", method=RequestMethod.GET)
     public Iterable<Klant> findKlanten() {
-        return this.klantService.findAllByQuery();
+        return this.klantRepository.findAll();
     }
 
     @RequestMapping(value = "/1", method=RequestMethod.GET)
     public Iterable<Klant> findKlanten1() {
-        return this.klantRepository.findAll();
+        return this.klantRepository.findAllByQuery();
     }
 }
