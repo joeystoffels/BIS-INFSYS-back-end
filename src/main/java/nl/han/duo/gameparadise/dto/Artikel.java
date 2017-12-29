@@ -21,7 +21,8 @@ public class Artikel {
     @Column(name = "PRIJS", columnDefinition="smallmoney")
     private BigDecimal prijs;
 
-    private String prijsPerD;
+    @Column(name = "PRIJS_PER_D", columnDefinition="smallmoney")
+    private BigDecimal prijsPerDag;
 
     @Column(columnDefinition = "char")
     private String spelOfConsole;
