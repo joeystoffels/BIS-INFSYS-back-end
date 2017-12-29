@@ -2,6 +2,7 @@ package nl.han.duo.gameparadise.controller;
 
 
 import nl.han.duo.gameparadise.dto.Artikel;
+import nl.han.duo.gameparadise.dto.HuurHistorie;
 import nl.han.duo.gameparadise.repository.ArtikelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,5 +23,10 @@ public class ArtikelController {
     @RequestMapping(method=RequestMethod.GET)
     public @ResponseBody  Iterable<Artikel> findAll() {
         return artikelRepository.findAll();
+    }
+
+    @RequestMapping(value = "/historie", method=RequestMethod.GET)
+    public Iterable<HuurHistorie> getHuurhistorie() {
+        return this.artikelRepository.getHuurhistorie();
     }
 }
