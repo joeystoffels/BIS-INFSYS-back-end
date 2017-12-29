@@ -1,3 +1,10 @@
+/*================================================================*/
+/* Database name:  GameParadise			                          */
+/* DBMS name:      Microsoft SQL Server 2017                      */
+/* Created on:     20/12/2017							          */
+/* Made by:        Martijn de Geus, Nick Hartjes en Joey Stoffels */
+/*================================================================*/
+
 -- Foreign keys uit origineel aangeleverd document
 
 -- Deze is verwijderd in het alteration script, en komt later weer terug
@@ -125,7 +132,7 @@ ALTER TABLE ARTIKELENINKOOP
 ALTER TABLE ARTIKELENINKOOP DROP CONSTRAINT FK_ARTIKELENINKOOP_ARTIKEL;
 ALTER TABLE ARTIKELENINKOOP
 	ADD CONSTRAINT FK_ARTIKELENINKOOP_ARTIKEL FOREIGN KEY (BARCODE) REFERENCES ARTIKEL (BARCODE) ON UPDATE CASCADE ON DELETE NO ACTION;
-	
+
 -- 
 ALTER TABLE REPARATIE DROP CONSTRAINT FK_REPARATIE_ARTIKEL;
 ALTER TABLE REPARATIE

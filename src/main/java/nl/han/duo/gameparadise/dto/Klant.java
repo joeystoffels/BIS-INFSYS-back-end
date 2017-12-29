@@ -3,9 +3,6 @@ package nl.han.duo.gameparadise.dto;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -19,6 +16,22 @@ import java.util.List;
                 query = "SELECT k FROM Klant k WHERE k.typeEigenConsole = 'PS3'"
         )
 })
+@SqlResultSetMapping(
+        name = "Huurhistorie",
+        classes = {
+                @ConstructorResult(
+                        targetClass = HuurHistorie.class,
+                        columns = {
+                                @ColumnResult(name = "EMAILADRES", type = String.class),
+                        }
+                )
+        }
+)
+@NamedNativeQuery(
+        name = "Klant.getHuurhistorie",
+        query = "select EMAILADRES from KLANT",
+        resultSetMapping = "Huurhistorie"
+)
 public class Klant {
 
     @Id

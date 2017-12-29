@@ -29,9 +29,17 @@ WHERE HO.STARTDATUM <= GETDATE() AND HO.EINDDATUM >= GETDATE() AND HO.HUURSTATUS
 GO
 
 -- B. Lijst met Spellen die niet verhuurd zijn in 2016.
--- Wat is de definitie van verhuurd
+-- Wat is de definitie van verhuurd, en artikelen of spellen ?
 CREATE VIEW Opdr9B_NietVerhuurdIn2016 AS
-SELECT A.*
+SELECT A.BARCODE
+      , A.MERK
+      , A.TYPE
+      , A.TITEL
+      , A.PRIJS
+      , A.PRIJS_PER_D
+      , A.SPEL_OF_CONSOLE
+      , A.JAAR_UITGAVE
+      , A.UITGEVER
 FROM ARTIKEL AS A
 WHERE A.SPEL_OF_CONSOLE = 'SPEL' AND A.BARCODE NOT IN (
     SELECT A.BARCODE
