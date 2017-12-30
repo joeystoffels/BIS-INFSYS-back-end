@@ -16,8 +16,8 @@ public class RapportController {
     @Autowired
     private KlantRepository klantRepository;
 
-    @RequestMapping(value = "/1", method=RequestMethod.GET)
-    public Iterable<HuurHistorie> findKlanten1() {
-        return this.klantRepository.getHuurhistorie();
+    @RequestMapping(value = "/history", method=RequestMethod.GET)
+    public Iterable<HuurHistorie> rapportageHistory() {
+        return this.klantRepository.getAllHuurhistorie();
     }
 }

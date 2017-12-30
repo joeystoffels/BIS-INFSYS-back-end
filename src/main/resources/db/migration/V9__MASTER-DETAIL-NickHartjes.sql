@@ -5,6 +5,7 @@ USE gameparadisespring
 DROP VIEW IF EXISTS dbo.Opdr8_HuurHistorie;
 DROP VIEW IF EXISTS dbo.Opdr8_OmzetKlantPerJaar;
 DROP VIEW IF EXISTS dbo.Opdr8_Klantstatus;
+DROP VIEW IF EXISTS dbo.Opdr8_Overzicht;
 GO
 
 -- Master view:
@@ -92,7 +93,6 @@ CREATE VIEW Opdr8_OmzetKlantPerJaar AS
 GO
 
 CREATE VIEW Opdr8_Klantstatus AS
-  -- Omzet per klant per jaar verhuur
   SELECT
     EMAILADRES,
     SUM(OMZET)       AS 'OMZET',
@@ -103,6 +103,7 @@ CREATE VIEW Opdr8_Klantstatus AS
       THEN 'Silver'
     ELSE 'Brons' END AS 'STATUS'
   FROM (
+         -- Omzet per klant per jaar verhuur
          SELECT
            HO.EMAILADRES,
            (SELECT SUM(DATEDIFF(D, HO1.STARTDATUM, HO1.EINDDATUM) * A.PRIJS_PER_D)
@@ -152,3 +153,21 @@ CREATE VIEW Opdr8_Klantstatus AS
 GO
 
 
+CREATE VIEW Opdr8_Overzicht AS
+  SELECT
+    K.EMAILADRES,
+    K.MERK_EIGEN_CONSOLE,
+    K.TYPE_EIGEN_CONSOLE,
+    K.VOORNAMEN,
+    K.ACHTERNAAM,
+    K.STRAATNAAM,
+    K.HUISNUMMER,
+    K.POSTCODE,
+    K.WOONPLAATS,
+    K.GEBOORTEDATUM,
+    K.GESLACHT,
+    K.WACHTWOORD,
+    KS.OMZET,
+    KS.STATUS
+  FROM KLANT AS K
+    INNER JOIN Opdr8_Klantstatus AS KS ON K.EMAILADRES = KS.EMAILADRES
