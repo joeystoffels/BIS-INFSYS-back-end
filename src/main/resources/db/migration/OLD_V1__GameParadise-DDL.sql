@@ -1,30 +1,4 @@
 /*==============================================================*/
-/* Database name:  GAMEPARADISE                                 */
-/* DBMS name:      Microsoft SQL Server 2016                    */
-/* Created on:     13-11-2017 11:22:09 AM                       */
-/*==============================================================*/
-
-use master
-go
-
-IF EXISTS(SELECT * FROM sysdatabases WHERE name = 'GAME_P')
-	DROP DATABASE GAME_P
-go
-
-IF EXISTS(SELECT * FROM sysdatabases WHERE name = 'GAMEPARADISE')
-	DROP DATABASE GAMEPARADISE
-go
-
-/*==============================================================*/
-/* Database: GAMEPARADISE                                       */
-/*==============================================================*/
-create database GAMEPARADISE
-go
-
-use GAMEPARADISE
-go
-
-/*==============================================================*/
 /* Table: CONSOLE                                               */
 /*==============================================================*/
 create table CONSOLE (
