@@ -1,0 +1,160 @@
+-- Opdracht 9: Bouw Rapporten in Access (INDIVIDUEEL!).
+DROP VIEW IF EXISTS dbo.Opdr9A_OverzichtMomenteelVerhuurd;
+DROP VIEW IF EXISTS dbo.Opdr9B_NietVerhuurdIn2016;
+DROP VIEW IF EXISTS dbo.Opdr9C_OmzettenVanIedereMaand2012Tot2017;
+DROP VIEW IF EXISTS dbo.Opdr9D_Top10PopulairsteSpellen;
+DROP VIEW IF EXISTS dbo.Opdr9E_ConsolesDieInReparatieStaan;
+DROP VIEW IF EXISTS dbo.Opdr9F_OmzettenPerKlantInEenJaar;
+DROP VIEW IF EXISTS dbo.Opdr9G_Inkoophoeveelheid;
+GO
+
+-- A. Overzicht van artikelen die momenteel verhuurd zijn.
+CREATE VIEW Opdr9A_OverzichtMomenteelVerhuurd AS
+  SELECT
+    A.BARCODE,
+    A.MERK,
+    A.TYPE,
+    A.TITEL,
+    A.PRIJS,
+    A.PRIJS_PER_D,
+    A.SPEL_OF_CONSOLE,
+    A.JAAR_UITGAVE,
+    A.UITGEVER
+  FROM HUUROVEREENKOMST AS HO
+    INNER JOIN ARTIKELENVERHUUR AS AV ON (HO.STARTDATUM = AV.STARTDATUM AND HO.EMAILADRES = AV.EMAILADRES)
+    INNER JOIN ARTIKEL AS A ON AV.BARCODE = A.BARCODE
+  WHERE HO.STARTDATUM <= GETDATE() AND HO.EINDDATUM >= GETDATE() AND HO.HUURSTATUS = 'VERHUURD';
+GO
+
+-- B. Lijst met Spellen die niet verhuurd zijn in 2016.
+CREATE VIEW Opdr9B_NietVerhuurdIn2016 AS
+  SELECT
+    A.TITEL,
+    A.UITGEVER,
+    A.JAAR_UITGAVE
+  FROM ARTIKEL AS A
+  WHERE A.SPEL_OF_CONSOLE = 'SPEL' AND A.TITEL + A.UITGEVER + STR(A.JAAR_UITGAVE) NOT IN (
+    SELECT A.TITEL + A.UITGEVER + STR(A.JAAR_UITGAVE)
+    FROM ARTIKEL AS A
+      LEFT JOIN ARTIKELENVERHUUR AS AV ON A.BARCODE = AV.BARCODE
+    WHERE (A.SPEL_OF_CONSOLE = 'SPEL' AND YEAR(AV.STARTDATUM) = 2016)
+  )
+  GROUP BY A.TITEL, A.UITGEVER, A.JAAR_UITGAVE
+GO
+
+-- C. Omzetten van iedere maand van de jaren 2012 tot en met 2017.
+CREATE VIEW Opdr9C_OmzettenVanIedereMaand2012Tot2017 AS
+  SELECT
+    MONTH(DATUM) AS 'MAAND',
+    YEAR(DATUM) AS 'JAAR',
+    SUM(PRIJS) AS 'OMZET'
+  FROM Omzet
+  GROUP BY MONTH(DATUM), YEAR(DATUM)
+  HAVING YEAR(DATUM) >= 2012 AND YEAR(DATUM) <= 2017;
+GO
+
+
+-- CREATE VIEW Opdr9C_OmzettenVanIedereMaand2012Tot2017 AS
+--   SELECT
+--     MAAND,
+--     JAAR,
+--     SUM(OMZET) AS 'OMZET'
+--   FROM (
+--          -- Omzetten van maand/jaar van verhuur
+--          SELECT
+--            MONTH(HO.STARTDATUM) AS 'MAAND',
+--            YEAR(HO.STARTDATUM)  AS 'JAAR',
+--            (SELECT SUM(DATEDIFF(D, HO1.STARTDATUM, HO1.EINDDATUM) * A.PRIJS_PER_D)
+--             FROM HUUROVEREENKOMST AS HO1
+--               LEFT JOIN ARTIKELENVERHUUR AS AVR ON HO1.EMAILADRES = AVR.EMAILADRES AND HO1.STARTDATUM = AVR.STARTDATUM
+--               LEFT JOIN ARTIKEL A ON AVR.BARCODE = A.BARCODE
+--             WHERE MONTH(HO1.STARTDATUM) = MONTH(HO.STARTDATUM)
+--                   AND YEAR(HO1.STARTDATUM) = YEAR(HO.STARTDATUM)
+--            )                    AS 'OMZET'
+--          FROM HUUROVEREENKOMST AS HO
+--            LEFT JOIN ARTIKELENVERHUUR AS AVR ON HO.EMAILADRES = AVR.EMAILADRES AND HO.STARTDATUM = AVR.STARTDATUM
+--            LEFT JOIN ARTIKEL A ON AVR.BARCODE = A.BARCODE
+--          GROUP BY MONTH(HO.STARTDATUM), YEAR(HO.STARTDATUM)
+--          UNION ALL
+--          -- Omzetten van maand/jaar van verkoop
+--          SELECT
+--            MONTH(VO.DATUM) AS 'MAAND',
+--            YEAR(VO.DATUM)  AS 'JAAR',
+--            (SELECT SUM(A.PRIJS)
+--             FROM VERKOOPOVEREENKOMST AS VO1
+--               LEFT JOIN ARTIKELENVERKOOP AS AV ON VO1.EMAILADRES = AV.EMAILADRES AND VO1.DATUM = AV.DATUM
+--               LEFT JOIN ARTIKEL AS A ON AV.BARCODE = A.BARCODE
+--             WHERE MONTH(VO.DATUM) = MONTH(VO1.DATUM)
+--                   AND YEAR(VO.DATUM) = YEAR(VO1.DATUM)
+--            )               AS 'OMZET'
+--          FROM VERKOOPOVEREENKOMST AS VO
+--            LEFT JOIN ARTIKELENVERKOOP AS AV ON VO.EMAILADRES = AV.EMAILADRES AND VO.DATUM = AV.DATUM
+--            LEFT JOIN ARTIKEL AS A ON AV.BARCODE = A.BARCODE
+--          GROUP BY MONTH(VO.DATUM), YEAR(VO.DATUM)
+--          UNION ALL
+--          -- Omzetten van maand/jaar van reparatie
+--          SELECT
+--            MONTH(R.STARTDATUM) AS 'MAAND',
+--            YEAR(R.STARTDATUM)  AS 'JAAR',
+--            (SELECT SUM(R1.KOSTEN)
+--             FROM REPARATIE AS R1
+--               INNER JOIN ARTIKELENVERHUUR AS AV1 ON R1.BARCODE = AV1.BARCODE AND R1.STARTDATUM = AV1.STARTDATUM
+--             WHERE MONTH(R.STARTDATUM) = MONTH(R1.STARTDATUM)
+--                   AND YEAR(R.STARTDATUM) = YEAR(R1.STARTDATUM)
+--            )                   AS 'OMZET'
+--          FROM REPARATIE AS R
+--            LEFT JOIN ARTIKELENVERHUUR AS AV ON R.BARCODE = AV.BARCODE AND R.STARTDATUM = AV.STARTDATUM) AS TABEL
+--   GROUP BY MAAND, JAAR
+--   HAVING JAAR >= 2012 AND JAAR <= 2017;
+-- GO
+
+
+-- D. Overzicht van de top 10 van populairste spellen.
+CREATE VIEW Opdr9D_Top10PopulairsteSpellen AS
+  SELECT TOP(10)WITH TIES
+    TITEL,
+    UITGEVER,
+    JAAR_UITGAVE,
+    COUNT(TITEL) AS 'AANTAL_VERHUURD'
+  FROM HistorieHuur
+  WHERE TITEL IS NOT NULL
+  GROUP BY TITEL, UITGEVER, JAAR_UITGAVE
+  ORDER BY 'AANTAL_VERHUURD' DESC;
+GO
+
+-- E. Consoles die in reparatie staan.
+CREATE VIEW Opdr9E_ConsolesDieInReparatieStaan AS
+  SELECT
+    SCHADENUMMER,
+    BARCODE,
+    STARTDATUM,
+    INLOGNAAM,
+    DATUM_GEREED,
+    KOSTEN,
+    REPARATIESTATUS,
+    EMAILADRES
+  FROM REPARATIE AS R
+  WHERE R.REPARATIESTATUS = 'IN REPARATIE';
+GO
+
+-- F. Omzetten per klant in een jaar,  gesorteerd van hoog naar laag. Verdeel de klanten in Gold,  Silver,  Bronze zoals beschreven in de casus.
+CREATE VIEW Opdr9F_OmzettenPerKlantInEenJaar AS
+  SELECT
+    KO.EMAILADRES,
+    O.JAAR,
+    O.OMZET,
+    KO.OMZET AS 'OMZET_LAATSTE_12_MAANDEN',
+    KO.STATUS
+  FROM Opdr8_OmzetPerKlantPerJaar AS O
+  LEFT JOIN Opdr8_KlantOverzicht  AS KO ON O.EMAILADRES = KO.EMAILADRES
+GO
+
+-- G. Inkoophoeveelheid (aantal artikelen) en totaalbedrag per jaar.
+CREATE VIEW Opdr9G_Inkoophoeveelheid AS
+  SELECT
+    YEAR(IO.DATUM)       AS 'JAAR',
+    COUNT(IO.INKOOPBEDRAG) AS 'AANTAL',
+    SUM(IO.INKOOPBEDRAG) AS 'TOTAALBEDRAG'
+  FROM INKOOPOVEREENKOMST AS IO
+  GROUP BY YEAR(IO.DATUM);
+GO
