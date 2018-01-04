@@ -102,39 +102,8 @@ CREATE VIEW Opdr9C_OmzettenVanIedereMaand2012Tot2017 AS
 GO
 
 
-
-
-
-
---
---   SELECT
---     -- Verkoop: Tel alle prijzen bij elkaar op, wanneer er een datum van verkoopovereenkomst is.
---     SUM(CASE WHEN VO.DATUM IS NOT NULL
---       THEN A.PRIJS
---         ELSE 0 END)
---     +
---     -- Vehuur: Tel alle dagen x verhuurprijs voor wanneer de status op verhuur staat.
---     SUM(CASE WHEN HO.HUURSTATUS = 'VERHUURD'
---       THEN DATEDIFF(D, HO.STARTDATUM, HO.EINDDATUM) * A.PRIJS_PER_D
---         ELSE 0 END)
---     +
---     -- Reparatie: Alle omzet gemaakt bij reparatie
---     SUM(CASE WHEN R.KOSTEN IS NOT NULL
---       THEN R.KOSTEN
---         ELSE 0 END)
---       AS 'omzet'
---   FROM ARTIKEL AS A
---     LEFT JOIN REPARATIE AS R ON A.BARCODE = R.BARCODE
---     LEFT JOIN ARTIKELENVERKOOP AS AV ON A.BARCODE = AV.BARCODE
---     LEFT JOIN ARTIKELENVERHUUR AS AVR ON A.BARCODE = AVR.BARCODE
---     LEFT JOIN HUUROVEREENKOMST AS HO ON AVR.EMAILADRES = HO.EMAILADRES AND AVR.STARTDATUM = HO.STARTDATUM
---     LEFT JOIN VERKOOPOVEREENKOMST AS VO ON AV.EMAILADRES = VO.EMAILADRES AND AV.DATUM = VO.DATUM
-
-
-GO
-
-
 -- D. Overzicht van de top 10 van populairste spellen.
+-- Verhuur ? Verkoop ?
 CREATE VIEW Opdr9D_Top10PopulairsteSpellen AS
   SELECT *
   FROM ARTIKEL;
@@ -143,7 +112,8 @@ GO
 -- E. Consoles die in reparatie staan.
 CREATE VIEW Opdr9E_ConsolesDieInReparatieStaan AS
   SELECT *
-  FROM ARTIKEL;
+  FROM REPARATIE AS R
+  WHERE R.REPARATIESTATUS = 'IN REPARATIE';
 GO
 
 -- F. Omzetten per klant in een jaar,  gesorteerd van hoog naar laag. Verdeel de klanten in Gold,  Silver,  Bronze zoals beschreven in de casus.
@@ -154,6 +124,9 @@ GO
 
 -- G. Inkoophoeveelheid (aantal artikelen) en totaalbedrag per jaar.
 CREATE VIEW Opdr9G_Inkoophoeveelheid AS
-  SELECT *
-  FROM ARTIKEL;
+  SELECT
+    YEAR(IO.DATUM)       AS 'JAAR',
+    SUM(IO.INKOOPBEDRAG) AS 'TOTAALBEDRAG'
+  FROM INKOOPOVEREENKOMST AS IO
+  GROUP BY YEAR(IO.DATUM);
 GO

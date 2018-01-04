@@ -9,7 +9,7 @@ DROP VIEW IF EXISTS dbo.Opdr7D_TotaleSchade2016;
 DROP VIEW IF EXISTS dbo.Opdr7E_ConsolesMetMeesteSchade;
 GO
 
--- A. De omzet van de maand januari in het de jaar 2015.
+-- A. De omzet van de maand januari in het jaar 2015.
 -- Hierbij is de aanname gedaan dat er op de startdatum van huurovereenkomst betaald word.
 CREATE VIEW Opdr7A_Omzet2015 AS
   SELECT
@@ -27,7 +27,7 @@ CREATE VIEW Opdr7A_Omzet2015 AS
     SUM(CASE WHEN R.KOSTEN IS NOT NULL
       THEN R.KOSTEN
         ELSE 0 END)
-      AS 'omzet'
+      AS 'OMZET'
   FROM ARTIKEL AS A
     LEFT JOIN REPARATIE AS R ON A.BARCODE = R.BARCODE
     LEFT JOIN ARTIKELENVERKOOP AS AV ON A.BARCODE = AV.BARCODE
@@ -85,7 +85,7 @@ GO
 
 -- D. De totale schade in het jaar 2016.
 CREATE VIEW Opdr7D_TotaleSchade2016 AS
-  SELECT SUM(R.KOSTEN) AS 'totale schade'
+  SELECT SUM(R.KOSTEN) AS 'TOTALE SCHADE'
   FROM REPARATIE AS R
   WHERE YEAR(R.STARTDATUM) = 2016;
 GO
@@ -97,7 +97,7 @@ CREATE VIEW Opdr7E_ConsolesMetMeesteSchade AS
     R.BARCODE,
     A.MERK,
     A.[TYPE],
-    SUM(R.KOSTEN) AS 'kosten'
+    SUM(R.KOSTEN) AS 'KOSTEN'
   FROM REPARATIE AS R
     INNER JOIN ARTIKEL AS A ON R.BARCODE = A.BARCODE
   GROUP BY R.BARCODE, A.MERK, A.[TYPE]

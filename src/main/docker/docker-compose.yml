@@ -1,0 +1,7 @@
+version: "3"
+services:
+    mssqldb:
+        image: "microsoft/mssql-server-linux"
+        environment:
+            SA_PASSWORD: "yourStrong(!)Password"
+            ACCEPT_EULA: "Y"

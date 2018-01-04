@@ -3,6 +3,12 @@
 /* DBMS name:      Microsoft SQL Server 2016                    */
 /* Created on:     13-11-2017 11:22:09 AM                       */
 /*==============================================================*/
+USE MASTER;
+DROP DATABASE gameparadisespring;
+CREATE DATABASE gameparadisespring;
+
+
+USE gameparadisespring;
 
 /*==============================================================*/
 /* Table: CONSOLE                                               */

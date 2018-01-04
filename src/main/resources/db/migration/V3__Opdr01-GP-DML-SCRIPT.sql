@@ -211,6 +211,48 @@ EXEC sp_rename 'KLANT.ADRES', 'STRAATNAAM';
 ALTER TABLE ARTIKEL
 	ADD CONSTRAINT FK_ARTIKEL_IS_CONSOLE FOREIGN KEY (MERK, TYPE) REFERENCES CONSOLE (MERK_NAAM, TYPE_NAAM);
 
+
+/*==============================================================*/
+/* Alter Table: HUUROVEREENKOMST	                            */
+/*==============================================================*/
+/* Table: HUUROVEREENKOMST                                      */
+/*                                                              */
+/*==============================================================*/
+
+CREATE TABLE ARTIKELENVERHUUR (
+  BARCODE              char(8)              not null,
+  STARTDATUM           datetime             not null,
+  EMAILADRES           varchar(100)         not null,
+)
+GO
+
+INSERT INTO ARTIKELENVERHUUR
+  SELECT DISTINCT BARCODE, STARTDATUM, EMAILADRES FROM HUUROVEREENKOMST;
+
+ALTER TABLE HUUROVEREENKOMST
+  DROP CONSTRAINT PK_HUUROVEREENKOMST
+
+ALTER TABLE HUUROVEREENKOMST
+  DROP CONSTRAINT FK_HUUROVEREENKOMST_ARTIKEL
+
+-- Drop index so we can remove the barcode column
+DROP INDEX HUUROVEREENKOMST.Huurovereenkomst_barcode_einddatum;
+ALTER TABLE HUUROVEREENKOMST
+  DROP COLUMN BARCODE;
+
+ALTER TABLE HUUROVEREENKOMST
+  ADD CONSTRAINT PK_HUUROVEREENKOMST PRIMARY KEY (EMAILADRES, STARTDATUM)
+
+ALTER TABLE ARTIKELENVERHUUR
+  ADD CONSTRAINT PK_ARTIKELENVERHUUR PRIMARY KEY (BARCODE, EMAILADRES, STARTDATUM)
+
+ALTER TABLE ARTIKELENVERHUUR
+  ADD CONSTRAINT FK_HUUROVEREENKOMST FOREIGN KEY (EMAILADRES, STARTDATUM) REFERENCES HUUROVEREENKOMST (EMAILADRES, STARTDATUM);
+
+ALTER TABLE ARTIKELENVERHUUR
+  ADD CONSTRAINT FK_ARTIKEL FOREIGN KEY (BARCODE) REFERENCES ARTIKEL (BARCODE);
+GO
+
 /*==============================================================*/
 /* Alter Table: REPARATIE	                            */
 /*==============================================================*/
@@ -222,46 +264,48 @@ ALTER TABLE REPARATIE
 	DROP CONSTRAINT FK_REPARATIE_BIJ_HUUROVEREENKOMST
 GO
 
-/*==============================================================*/
-/* Alter Table: HUUROVEREENKOMST	                            */
-/*==============================================================*/
-/* Table: HUUROVEREENKOMST                                      */
-/*                                                              */
-/*==============================================================*/
-
-CREATE TABLE ARTIKELENVERHUUR (
-	BARCODE              char(8)              not null,
-	STARTDATUM           datetime             not null,
-	EMAILADRES           varchar(100)         not null,
-)
+ALTER TABLE REPARATIE
+  ADD EMAILADRES VARCHAR(100);
 GO
 
-INSERT INTO ARTIKELENVERHUUR
-	SELECT DISTINCT BARCODE, STARTDATUM, EMAILADRES FROM HUUROVEREENKOMST;
+/*==============================================================*/
+DECLARE @Enumerator CURSOR
 
-ALTER TABLE HUUROVEREENKOMST
-	DROP CONSTRAINT PK_HUUROVEREENKOMST
+SET @Enumerator = CURSOR LOCAL FAST_FORWARD FOR
+SELECT
+  BARCODE,
+  STARTDATUM
+FROM REPARATIE
 
-ALTER TABLE HUUROVEREENKOMST
-	DROP CONSTRAINT FK_HUUROVEREENKOMST_ARTIKEL
+OPEN @Enumerator
 
--- Drop index so we can remove the barcode column
-DROP INDEX HUUROVEREENKOMST.Huurovereenkomst_barcode_einddatum;
-ALTER TABLE HUUROVEREENKOMST
-	DROP COLUMN BARCODE;
+DECLARE @barcode CHAR(8)
+DECLARE @startdatum DATETIME
+DECLARE @emailadres VARCHAR(100)
 
-ALTER TABLE HUUROVEREENKOMST
-	ADD CONSTRAINT PK_HUUROVEREENKOMST PRIMARY KEY (EMAILADRES, STARTDATUM)
+WHILE (1 = 1)
+BEGIN
+  FETCH NEXT FROM @Enumerator  INTO @barcode, @startdatum
+  if (@@FETCH_STATUS <> 0) break
 
-ALTER TABLE ARTIKELENVERHUUR
-	ADD CONSTRAINT PK_ARTIKELENVERHUUR PRIMARY KEY (BARCODE, EMAILADRES, STARTDATUM)
+  PRINT @barcode
+  PRINT @startdatum
 
-ALTER TABLE ARTIKELENVERHUUR
-	ADD CONSTRAINT FK_HUUROVEREENKOMST FOREIGN KEY (EMAILADRES, STARTDATUM) REFERENCES HUUROVEREENKOMST (EMAILADRES, STARTDATUM);
+  UPDATE REPARATIE
+  SET EMAILADRES = (
+    SELECT EMAILADRES
+    FROM HUUROVEREENKOMST AS HO
+    WHERE HO.BARCODE = @barcode AND HO.STARTDATUM = @startdatum
+  )
+  WHERE STARTDATUM = @startdatum AND BARCODE = @barcode
+--
+END
 
-ALTER TABLE ARTIKELENVERHUUR
-	ADD CONSTRAINT FK_ARTIKEL FOREIGN KEY (BARCODE) REFERENCES ARTIKEL (BARCODE);
+CLOSE @Enumerator
+DEALLOCATE @Enumerator
 GO
+/*==============================================================*/
+
 
 /*==============================================================*/
 /* Alter Table: KOOPOVEREENKOMST	                            */
