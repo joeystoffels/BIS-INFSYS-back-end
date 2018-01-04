@@ -1,10 +1,10 @@
-package nl.han.duo.gameparadise.dto;
+package nl.han.duo.gameparadise.dao;
 
 import lombok.Data;
+import nl.han.duo.gameparadise.dao.Klant;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 @Entity

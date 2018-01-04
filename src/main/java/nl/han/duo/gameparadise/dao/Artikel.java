@@ -1,4 +1,4 @@
-package nl.han.duo.gameparadise.dto;
+package nl.han.duo.gameparadise.dao;
 
 import lombok.Data;
 

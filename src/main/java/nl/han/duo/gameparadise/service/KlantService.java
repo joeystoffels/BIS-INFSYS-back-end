@@ -1,7 +1,7 @@
 package nl.han.duo.gameparadise.service;
 
 
-import nl.han.duo.gameparadise.dto.Klant;
+import nl.han.duo.gameparadise.dao.Klant;
 import nl.han.duo.gameparadise.repository.KlantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

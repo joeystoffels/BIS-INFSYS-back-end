@@ -1,7 +1,7 @@
 package nl.han.duo.gameparadise.controller;
 
 
-import nl.han.duo.gameparadise.dto.Artikel;
+import nl.han.duo.gameparadise.dao.Artikel;
 import nl.han.duo.gameparadise.repository.ArtikelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
