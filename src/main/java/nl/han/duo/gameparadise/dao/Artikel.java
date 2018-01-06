@@ -1,5 +1,6 @@
 package nl.han.duo.gameparadise.dao;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
+@AllArgsConstructor
 public class Artikel {
     @Id
     @Column(columnDefinition = "char")

@@ -3,6 +3,8 @@ package nl.han.duo.gameparadise.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -22,4 +24,21 @@ public class KlantOverzicht {
     private String geslacht;
     private String omzet;
     private String status;
+
+    public String getHuisnummer() {
+        return huisnummer.trim();
+    }
+
+    public String getMerkEigenConsole() {
+        return merkEigenConsole.trim();
+    }
+
+    public String getTypeEigenConsole() {
+        return typeEigenConsole.trim();
+    }
+
+    public String getGeboortedatum() {
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        return df.format(geboortedatum);
+    }
 }

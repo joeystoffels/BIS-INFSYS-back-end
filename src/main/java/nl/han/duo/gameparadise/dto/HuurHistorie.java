@@ -18,8 +18,8 @@ public class HuurHistorie {
     private String titel;
     private String uitgever;
     private Long jaarUitgave;
-    private Date startdatum;
-    private Date einddatum;
-    private String kosten;
+    private Date datum;
+    private String prijs;
     private String emailadres;
+    private String soort;
 }

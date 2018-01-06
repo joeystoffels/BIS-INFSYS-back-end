@@ -21,20 +21,20 @@ public class KlantController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<KlantOverzicht> findKlanten() {
-        return this.klantRepository.getOverzicht();
+        return this.klantRepository.getKlantOverzicht();
     }
 
-    @RequestMapping(value = "/{emailadres}/history", method = RequestMethod.GET)
+    @RequestMapping(value = "/{emailadres}/historie", method = RequestMethod.GET)
     public Iterable<HuurHistorie> findKlantHuurhistoryByEmail(
             @PathVariable(name = "emailadres", required = true) String emailadres
             ) {
-        return this.klantRepository.getHuurhistorieByEmail(emailadres);
+        return this.klantRepository.getKlantHuurHistorieByEmail(emailadres);
     }
 
     @RequestMapping(value = "/{emailadres}/omzet", method = RequestMethod.GET)
     public Iterable<KlantOmzet> findKlantOmzetPerJaarByEmail(
             @PathVariable(name = "emailadres", required = true) String emailadres
     ) {
-        return this.klantRepository.getOmzet(emailadres);
+        return this.klantRepository.getKlantOmzetByEmail(emailadres);
     }
 }

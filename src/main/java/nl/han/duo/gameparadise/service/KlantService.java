@@ -12,7 +12,7 @@ public class KlantService {
     @Autowired
     private KlantRepository klantRepository;
 
-    public Iterable<Klant> findAllByQuery(){
-        return this.klantRepository.findByTest();
-    }
+//    public Iterable<Klant> findAllByQuery(){
+//        return this.klantRepository.findByTest();
+//    }
 }

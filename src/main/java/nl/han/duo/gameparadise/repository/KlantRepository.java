@@ -1,28 +1,34 @@
 package nl.han.duo.gameparadise.repository;
 
-import nl.han.duo.gameparadise.dto.HuurHistorie;
+import nl.han.duo.gameparadise.dao.Artikel;
+import nl.han.duo.gameparadise.dto.*;
 import nl.han.duo.gameparadise.dao.Klant;
-import nl.han.duo.gameparadise.dto.KlantOmzet;
-import nl.han.duo.gameparadise.dto.KlantOverzicht;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface KlantRepository extends CrudRepository<Klant,String> {
+public interface KlantRepository extends CrudRepository<Klant, String> {
 
 
-    List<KlantOverzicht> getOverzicht();
+    List<KlantOmzet> getKlantOmzetByEmail(@Param("emailadres") String emailadres);
 
-    List<HuurHistorie> getAllHuurhistorie();
+    List<HuurHistorie> getKlantHuurHistorieByEmail(@Param("emailadres") String emailadres);
 
-    List<KlantOmzet> getOmzet(@Param("emailadres") String emailadres);
+    List<KlantOverzicht> getKlantOverzicht();
 
-    List<HuurHistorie> getHuurhistorieByEmail(@Param("emailadres") String emailadres);
+    List<Artikel> get9A_OverichtMomenteelVerhuurd();
 
-    Iterable<Klant> findAllByQuery();
+    List<Spel> get9B_NietVerhuurdIn2016();
 
-    Iterable<Klant> findByTest();
+    List<KlantOmzetPerMaand> get9C_OmzettenVanIedereMaand();
 
+    List<Top10> get9D_Top10PopulairsteSpellen();
+
+    List<Reparatie> get9E_ConsolesDieInReparatieStaan();
+
+    List<KlantOmzetPerJaarPerMaand> get9F_OmzettenPerKlantInEenJaar();
+
+    List<Inkoophoeveelheid> get9GInkoophoeveelheid();
 }
 
