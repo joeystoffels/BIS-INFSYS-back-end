@@ -78,7 +78,7 @@ GO
 
 -- E: De consoles met de meeste schade.
 CREATE VIEW OPDRACHT_7E AS
-SELECT 		
+SELECT TOP 10
 			A.[BARCODE],
 			A.[JAAR_UITGAVE],
 			A.[MERK],
