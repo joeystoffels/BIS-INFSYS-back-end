@@ -3,9 +3,6 @@
 /* DBMS name:      Microsoft SQL Server 2016                    */
 /* Created on:     11/27/2017 09:14:25 AM                       */
 /*==============================================================*/
-use master
-use GAMEPARADISE
-go
 
 /* Alle DeleteStatements in goede volgorde om tabellen leeg te maken*/
 
