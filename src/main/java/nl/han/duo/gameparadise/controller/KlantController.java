@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/klant")
-public class KlantController {
+    @RequestMapping("/klant")
+    public class KlantController {
 
     @Autowired
     private KlantRepository klantRepository;

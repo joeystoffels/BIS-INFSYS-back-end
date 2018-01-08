@@ -12,6 +12,5 @@ public interface KlantRepository extends CrudRepository<Klant, Long> {
 
     List<Artikel> getPiet();
 
-
     List<NieuweKlant> getKlantenTelefoonnummers();
 }
