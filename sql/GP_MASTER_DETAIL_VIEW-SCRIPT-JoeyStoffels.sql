@@ -1,12 +1,12 @@
 USE GAMEPARADISE
 
 -- Master view:
--- Klanten overzicht
+-- 8A: Klanten overzicht.
 CREATE VIEW OPDRACHT_8A AS
 SELECT * FROM KLANT;
 
 -- Detail view:
--- huurhistorie
+-- 8B: Huurhistorie van de klant.
 CREATE VIEW OPDRACHT_8B AS
 SELECT
       K.[EMAILADRES],
@@ -21,7 +21,7 @@ FROM
       ORDER BY K.EMAILADRES ASC, HO.[STARTDATUM] DESC, A.[BARCODE] ASC;
 
 
--- omzet v/d klant /jaar
+-- 8C: Omzet van de klant per jaar.
 CREATE VIEW OPDRACHT_8C AS
 SELECT
       K.[EMAILADRES],
@@ -37,8 +37,6 @@ FROM
       INNER JOIN VERKOOPOVEREENKOMST VO ON AK.[EMAILADRES] = VO.[EMAILADRES] AND AK.[DATUM] = VO.[DATUM]
       INNER JOIN KLANT K ON HO.[EMAILADRES] = K.[EMAILADRES]
       ORDER BY K.EMAILADRES;
-
-
 
   (SELECT COALESCE((SELECT SUM(CONVERT(INT, HO.[EINDDATUM] - HO.[STARTDATUM]) * A.[PRIJS_PER_D])
                     FROM ARTIKEL A
@@ -56,5 +54,5 @@ FROM
                     FROM REPARATIE R
                     WHERE MONTH(R.[STARTDATUM]) = 1 AND YEAR(R.[STARTDATUM]) = 2015), 0) AS 'REPARATIE') AS C3;
 
--- klantstatus
+-- 8D: Klantstatus van de klant.
 CREATE VIEW OPDRACHT_8D AS
