@@ -38,7 +38,7 @@ FROM
 
 
 -- 8D: Omzet van de klant per jaar.
-
+DROP VIEW OPDRACHT_8D
 -- User Defined Function for omzetPerJaar
 -- Remove old function: DROP FUNCTION omzetPerJaar
 -- Test: SELECT * FROM omzetPerJaar (2015)
@@ -120,7 +120,8 @@ SELECT
       ISNULL(C.OMZET, 0) AS 'OMZET_2016',
       --ISNULL(D.OMZET_VERHUUR, 0) AS 'VERHUUR_2017',
       --ISNULL(D.OMZET_VERKOOP, 0) AS 'VERKOOP_2017',
-      ISNULL(D.OMZET, 0) AS 'OMZET_2017'
+      ISNULL(D.OMZET, 0) AS 'OMZET_2017',
+      (A.OMZET + B.OMZET + C.OMZET + D.OMZET) AS 'TOTALE_OMZET' --todo geeft not null waarden
 FROM omzetPerJaar (2014) AS A
 FULL JOIN (SELECT * FROM omzetPerJaar (2015)) AS B ON A.EMAILADRES = B.EMAILADRES
 FULL JOIN (SELECT * FROM omzetPerJaar (2016)) AS C ON B.EMAILADRES = C.EMAILADRES OR A.EMAILADRES = C.EMAILADRES
@@ -130,4 +131,23 @@ FULL JOIN (SELECT * FROM omzetPerJaar (2017)) AS D ON C.EMAILADRES = D.EMAILADRE
 
 
 -- 8E: Klantstatus van de klant.
-CREATE VIEW OPDRACHT_8D AS
+-- Klant is goud bij omzet van >500, zilver bij >250 en brons bij >100
+CREATE VIEW OPDRACHT_8E AS
+SELECT
+      A.EMAILADRES,
+  (CASE
+    WHEN A.TOTALE_OMZET < 500
+      THEN CASE
+        WHEN A.TOTALE_OMZET < 250
+          THEN CASE
+            WHEN A.TOTALE_OMZET < 100
+              THEN 'BASIS'
+              ELSE 'BRONS'
+            END
+          ELSE 'ZILVER'
+        END
+      ELSE 'GOUD'
+    END) AS 'STATUS',
+  (A.OMZET_2014 + A.OMZET_2015 + A.OMZET_2016 + A.OMZET_2016) AS 'OMZET'
+FROM
+      (SELECT * FROM OPDRACHT_8D) AS A
