@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-@Entity
 @NamedNativeQueries({
         @NamedNativeQuery(
                 name = "Klant.getKlantOverzicht",
@@ -230,46 +229,7 @@ import java.util.Date;
                 }
         )
 })
-public class Klant {
+public class ViewClass {
 
-    @Id
-    private String emailadres;
 
-    private String voornamen;
-
-    private String achternaam;
-
-    private String straatnaam;
-
-    @Column(columnDefinition = "char")
-    private String huisnummer;
-
-    @Column(columnDefinition = "char")
-    private String postcode;
-
-    private String woonplaats;
-
-    private java.sql.Timestamp geboortedatum;
-
-    @Column(columnDefinition = "char")
-    private String geslacht;
-
-    @Column(columnDefinition = "char")
-    private String wachtwoord;
-
-    private String merkEigenConsole;
-
-    private String typeEigenConsole;
-
-    public String getWachtwoord() {
-        return wachtwoord.trim();
-    }
-
-    public String getMerkEigenConsole() {
-        return merkEigenConsole.trim();
-    }
-
-    public String getTypeEigenConsole() {
-        return typeEigenConsole.trim();
-    }
 }

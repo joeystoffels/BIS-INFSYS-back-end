@@ -14,8 +14,4 @@ public class Spel {
     private String uitgever;
     private Long jaar_uitgave;
 
-    public String getJaar_uitgave() {
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        return df.format(jaar_uitgave);
-    }
 }

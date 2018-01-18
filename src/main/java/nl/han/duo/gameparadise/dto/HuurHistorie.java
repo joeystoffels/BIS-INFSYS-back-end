@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -22,4 +24,9 @@ public class HuurHistorie {
     private String prijs;
     private String emailadres;
     private String soort;
+
+    public String getDatum() {
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        return df.format(datum);
+    }
 }
