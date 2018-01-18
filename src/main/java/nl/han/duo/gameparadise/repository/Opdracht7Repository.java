@@ -11,9 +11,9 @@ public interface Opdracht7Repository extends CrudRepository<Schade, Long> {
 
     List<Artikel> get7b();
 
-    List<HuurOvereenkomst> get7c();
+    List<HuurOvereenkomst> get7c();*/
 
     List<Schade> get7d();
 
-    List<Artikel> get7e();*/
+/*    List<Artikel> get7e();*/
 }

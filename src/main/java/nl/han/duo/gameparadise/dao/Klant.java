@@ -71,8 +71,8 @@ public class Klant {
     @NotNull
     private String achternaam;
 
-    @NotNull
-    private String adres;
+/*    @NotNull
+    private String adres;*/
 
     @NotNull
     @Column(columnDefinition = "char")
