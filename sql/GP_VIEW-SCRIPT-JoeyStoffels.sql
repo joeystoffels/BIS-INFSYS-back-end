@@ -26,7 +26,7 @@ FROM
 GO
 
 
--- B: Het meest gehuurde Spel.
+-- B: Het meest gehuurde Spel. TODO ARTIKEL != SPEL
 CREATE VIEW OPDRACHT_7B AS
 SELECT TOP 1 WITH TIES
 			A.[BARCODE],
