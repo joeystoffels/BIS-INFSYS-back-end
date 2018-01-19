@@ -33,10 +33,100 @@ GROUP BY A.TITEL, A.UITGEVER;
 
 
 -- 9C: Omzetten van iedere maand van de jaren 2012 tot en met 2017.
+CREATE VIEW HELPER AS
+  SELECT
+    (CASE
+     WHEN YEAR(A1.DATUM) IS NULL
+       THEN CASE
+            WHEN YEAR(B2.DATUM) IS NULL
+              THEN CASE
+                   WHEN YEAR(C3.DATUM) IS NULL
+                     THEN 'ERROR'
+                   ELSE YEAR(C3.DATUM)
+                   END
+            ELSE YEAR(B2.DATUM)
+            END
+     ELSE YEAR(A1.DATUM)
+     END) AS 'JAAR',
+    (CASE
+     WHEN MONTH(A1.DATUM) IS NULL
+       THEN CASE
+            WHEN MONTH(B2.DATUM) IS NULL
+              THEN CASE
+                   WHEN MONTH(C3.DATUM) IS NULL
+                     THEN 'ERROR'
+                   ELSE MONTH(C3.DATUM)
+                   END
+            ELSE MONTH(B2.DATUM)
+            END
+     ELSE MONTH(A1.DATUM)
+     END) AS 'MAAND',
+    (ISNULL(A1.[VERHUUR], 0) +
+     ISNULL(B2.[VERKOOP], 0) +
+     ISNULL(C3.[REPARATIE], 0)) AS 'OMZET'
+  FROM
+    (SELECT AV.STARTDATUM AS 'DATUM', SUM(CONVERT(INT, HO.[EINDDATUM] - HO.[STARTDATUM]) * A.[PRIJS_PER_D]) AS 'VERHUUR'
+     FROM ARTIKEL A
+       INNER JOIN ARTIKELENVERHUUR AV ON A.[BARCODE] = AV.[BARCODE]
+       INNER JOIN HUUROVEREENKOMST HO ON AV.[EMAILADRES] = HO.EMAILADRES AND AV.[STARTDATUM] = HO.[STARTDATUM]
+     GROUP BY AV.STARTDATUM) AS A1
+    FULL JOIN
 
+    (SELECT AK.DATUM AS 'DATUM', SUM(A.[PRIJS]) AS 'VERKOOP'
+     FROM ARTIKEL A
+       INNER JOIN ARTIKELENVERKOOP AK ON A.[BARCODE] = AK.[BARCODE]
+       INNER JOIN VERKOOPOVEREENKOMST VO ON AK.[EMAILADRES] = VO.[EMAILADRES] AND AK.[DATUM] = VO.[DATUM]
+     GROUP BY AK.DATUM) AS B2 ON A1.DATUM = B2.DATUM
+    FULL JOIN
+
+    (SELECT R.STARTDATUM AS 'DATUM', SUM(R.[KOSTEN]) AS 'REPARATIE'
+     FROM REPARATIE R
+     GROUP BY R.STARTDATUM) AS C3 ON B2.DATUM = C3.DATUM
+  GROUP BY
+    (CASE
+     WHEN YEAR(A1.DATUM) IS NULL
+       THEN CASE
+            WHEN YEAR(B2.DATUM) IS NULL
+              THEN CASE
+                   WHEN YEAR(C3.DATUM) IS NULL
+                     THEN 'ERROR'
+                   ELSE YEAR(C3.DATUM)
+                   END
+            ELSE YEAR(B2.DATUM)
+            END
+     ELSE YEAR(A1.DATUM)
+     END),
+    (CASE
+     WHEN MONTH(A1.DATUM) IS NULL
+       THEN CASE
+            WHEN MONTH(B2.DATUM) IS NULL
+              THEN CASE
+                   WHEN MONTH(C3.DATUM) IS NULL
+                     THEN 'ERROR'
+                   ELSE MONTH(C3.DATUM)
+                   END
+            ELSE MONTH(B2.DATUM)
+            END
+     ELSE MONTH(A1.DATUM)
+     END),
+    (ISNULL(A1.[VERHUUR], 0) +
+     ISNULL(B2.[VERKOOP], 0) +
+     ISNULL(C3.[REPARATIE], 0))
+GO
+
+SELECT
+  JAAR,
+  MAAND,
+  SUM(OMZET) AS 'OMZET'
+FROM
+  HELPER GROUP BY JAAR, MAAND
+  ORDER BY JAAR, MAAND
+GO
 
 
 -- 9D: Overzicht van de top 10 van populairste spellen.
+
+
 
 -- 9E: Consoles die in reparatie staan.
 
