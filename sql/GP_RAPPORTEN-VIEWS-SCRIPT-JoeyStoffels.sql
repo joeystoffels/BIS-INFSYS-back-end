@@ -163,26 +163,13 @@ GO
 
 -- 9F: Omzetten per klant in een jaar, gesorteerd van hoog naar laag. Verdeel de klanten in Gold, Silver, Bronze zoals beschreven in de casus.
 -- NB: Sorteren niet mogelijk in view
---TODO AFSTEMMEN MET OPDRACHT 9E, KLANTSTATUS OVER MEERDERE JAREN OF HUIDIGE JAAR?
+-- CASUS: Op basis daarvan krijgt een klant een status van Gold, Silver of Bronze.
+-- Het totaal bestede bedrag over de afgelopen 12 maanden is hiervoor bepalend:
+-- Gold klanten hebben 150 euro besteed, Silver 100 en Bronze 50.
 CREATE VIEW OPDRACHT_9F AS
-SELECT
-  EMAILADRES,
-  OMZET_2017,
-  (CASE
-   WHEN OMZET_2017 < 500
-     THEN CASE
-          WHEN OMZET_2017 < 250
-            THEN CASE
-                 WHEN OMZET_2017 < 100
-                   THEN 'BASIS'
-                 ELSE 'BRONS'
-                 END
-          ELSE 'ZILVER'
-          END
-   ELSE 'GOUD'
-   END) AS 'STATUS'
-FROM OPDRACHT_8D;
---ORDER BY OMZET_2017 DESC;
+SELECT *
+FROM OPDRACHT_8E_HELPER
+  ORDER BY OMZET DESC;
 GO
 
 
