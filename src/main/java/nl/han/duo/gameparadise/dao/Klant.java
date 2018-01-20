@@ -1,11 +1,13 @@
+/*
 package nl.han.duo.gameparadise.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import nl.han.duo.gameparadise.dto.Artikel;
+import nl.han.duo.gameparadise.dto.NieuweKlant;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
 @SqlResultSetMappings({
@@ -71,8 +73,10 @@ public class Klant {
     @NotNull
     private String achternaam;
 
+*/
 /*    @NotNull
-    private String adres;*/
+    private String adres;*//*
+
 
     @NotNull
     @Column(columnDefinition = "char")
@@ -101,3 +105,4 @@ public class Klant {
         return dateFormat.format(this.geboortedatum);
     }
 }
+*/

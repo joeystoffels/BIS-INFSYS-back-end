@@ -1,4 +1,5 @@
-package nl.han.duo.gameparadise.dao;
+/*
+package nl.han.duo.gameparadise.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -52,3 +53,4 @@ public class NieuweKlant {
 //    private String mobiel_of_vast;
 
 }
+*/

@@ -1,4 +1,5 @@
-package nl.han.duo.gameparadise.dao;
+/*
+package nl.han.duo.gameparadise.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,3 +16,4 @@ public class Artikel {
     private String prijs_per_d;
     private String spel_of_console;
 }
+*/

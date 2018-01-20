@@ -1,3 +1,4 @@
+/*
 package nl.han.duo.gameparadise.dao;
 
 import lombok.AllArgsConstructor;
@@ -37,3 +38,4 @@ public class Schade {
     private String totale_schade_2016;
 
 }
+*/
