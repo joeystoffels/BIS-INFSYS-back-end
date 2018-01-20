@@ -1,12 +1,12 @@
-/*
-package nl.han.duo.gameparadise.dto;
+package nl.han.duo.gameparadise.dto.opdracht_9;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @Data
 @AllArgsConstructor
-public class Artikel {
+public class Opdracht_9A {
 
     private String barcode;
     private String merk;
@@ -15,5 +15,8 @@ public class Artikel {
     private String prijs;
     private String prijs_per_d;
     private String spel_of_console;
+    private String jaar_uitgave;
+    private String uitgever;
+    private String huurstatus;
+
 }
-*/

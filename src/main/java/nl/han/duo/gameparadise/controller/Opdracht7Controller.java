@@ -26,13 +26,15 @@ public class Opdracht7Controller {
         return this.opdracht7Repository.get7a();
     }
 
-    @RequestMapping(value = "/7b", method=RequestMethod.GET)
-    public @ResponseBody Iterable<Opdracht_7B> get7b() {
+    @RequestMapping(value = "/7b", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Opdracht_7B> get7b() {
         return this.opdracht7Repository.get7b();
     }
 
-    @RequestMapping(value = "/7c", method=RequestMethod.GET)
-    public @ResponseBody Iterable<Opdracht_7C> get7c() {
+    @RequestMapping(value = "/7c", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Opdracht_7C> get7c() {
         return this.opdracht7Repository.get7c();
     }
 
@@ -42,8 +44,9 @@ public class Opdracht7Controller {
         return this.opdracht7Repository.get7d();
     }
 
-    @RequestMapping(value = "/7e", method=RequestMethod.GET)
-    public @ResponseBody Iterable<Opdracht_7E> get7e() {
+    @RequestMapping(value = "/7e", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Opdracht_7E> get7e() {
         return this.opdracht7Repository.get7e();
     }
 }
