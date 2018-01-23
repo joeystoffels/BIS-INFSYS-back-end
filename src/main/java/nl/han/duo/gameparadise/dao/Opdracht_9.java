@@ -1,3 +1,4 @@
+/*
 package nl.han.duo.gameparadise.dao;
 
 import lombok.AllArgsConstructor;
@@ -156,3 +157,4 @@ public class Opdracht_9 {
 
 }
 
+*/

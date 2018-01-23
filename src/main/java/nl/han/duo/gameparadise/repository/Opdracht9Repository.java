@@ -1,6 +1,6 @@
 package nl.han.duo.gameparadise.repository;
 
-import nl.han.duo.gameparadise.dao.Opdracht_9;
+import nl.han.duo.gameparadise.dao.Klant;
 import nl.han.duo.gameparadise.dto.opdracht_9.Opdracht_9A;
 import nl.han.duo.gameparadise.dto.opdracht_9.Opdracht_9B;
 import nl.han.duo.gameparadise.dto.opdracht_9.Opdracht_9C;
@@ -12,7 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface Opdracht9Repository extends CrudRepository<Opdracht_9, Long> {
+public interface Opdracht9Repository extends CrudRepository<Klant, Long> {
 
     List<Opdracht_9A> get9a();
 

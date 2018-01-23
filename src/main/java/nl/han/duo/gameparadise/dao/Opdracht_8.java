@@ -1,3 +1,4 @@
+/*
 package nl.han.duo.gameparadise.dao;
 
 import lombok.AllArgsConstructor;
@@ -95,22 +96,22 @@ import javax.persistence.*;
         ),
         @NamedNativeQuery(
                 name = "Opdracht_8.get8b",
-                query = "SELECT * FROM OPDRACHT_8B",
+                query = "SELECT * FROM OPDRACHT_8B WHERE EMAILADRES = :emailadres",
                 resultSetMapping = "OPDRACHT_8B"
         ),
         @NamedNativeQuery(
                 name = "Opdracht_8.get8c",
-                query = "SELECT * FROM OPDRACHT_8C",
+                query = "SELECT * FROM OPDRACHT_8C WHERE EMAILADRES = :emailadres",
                 resultSetMapping = "OPDRACHT_8C"
         ),
         @NamedNativeQuery(
                 name = "Opdracht_8.get8d",
-                query = "SELECT * FROM OPDRACHT_8D",
+                query = "SELECT * FROM OPDRACHT_8D WHERE EMAILADRES = :emailadres",
                 resultSetMapping = "OPDRACHT_8D"
         ),
         @NamedNativeQuery(
                 name = "Opdracht_8.get8e",
-                query = "select * FROM OPDRACHT_8E",
+                query = "select * FROM OPDRACHT_8E WHERE EMAILADRES = :emailadres",
                 resultSetMapping = "OPDRACHT_8E"
         )
 })
@@ -125,3 +126,4 @@ public class Opdracht_8 {
 
 }
 
+*/

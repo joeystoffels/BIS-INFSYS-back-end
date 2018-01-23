@@ -1,7 +1,11 @@
 /*==============================================================*/
 /* Database: GAMEPARADISE                                       */
 /*==============================================================*/
---CREATE DATABASE GAMEPARADISE
+----CREATE DATABASE GAMEPARADISE
+
+--use master;
+--DroP database GAMEPARADISE;
+
 
 use GAMEPARADISE
 go
