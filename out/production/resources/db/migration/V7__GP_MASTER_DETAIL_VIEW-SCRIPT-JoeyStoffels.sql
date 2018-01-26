@@ -3,9 +3,9 @@ GO
 
 -- Master view:
 -- 8A: Klanten overzicht.
-CREATE VIEW OPDRACHT_8A AS --todo telefoonnummers?
+CREATE VIEW OPDRACHT_8A AS
   SELECT *
-  FROM KLANT;
+  FROM KLANT K;
 GO
 
 
